@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>Task Management</title>
+{% endblock %}
+
+{% block content %}
+    <h1 class="text-center">Task Management</h1>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{message.tags}}" role="alert">
+                {{message}}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="name">Add new task</label>
+            <input type="text" name="name" class="form-control" placeholder="Enter your new task here">
+        </div>
+        <button type="submit" class="btn btn-primary my-2">Save</button>
+    </form>
+    {% if all_task %}
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th class="text-center">Name</th>
+            <th class="text-center">Created on</th>
+            <th class="text-center">Status</th>
+            <th scope="col">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for task in all_task%}
+            {% if task.status %}
+                <tr>
+                    <td class= "text-center">{{task.name}}</td>
+                    <td class= "text-center">{{task.date_created}}</td>
+                    <td class = "text-center"><a href="{% url 'pending' task.id %}" class="btn btn-success">Completed</a></td>
+                    <td>
+                        <a href="delete/{{task.id}}" class="btn btn-danger"
+                        onclick="return confirm('Do you want to delete {{task.name}}?')"
+                        >Delete</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td class= "text-center">{{task.name}}</td>
+                    <td class= "text-center">{{task.date_created}}</td>
+                    <td class = "text-center"><a href="{% url 'completed' task.id %}" class="btn btn-warning">Pending</a></td>
+                    <td>
+                        <a href="delete/{{task.id}}" class="btn btn-danger"
+                        onclick="return confirm('Do you want to delete {{task.name}}?')"
+                        >Delete</a>
+                    </td>
+                </tr>
+            {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+      <!-- paginator -->
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            {% for num in all_task.paginator.page_range %}
+                {% if num != all_task.number %}
+                    <li class="page-item"><a class="page-link" href="?page={{num}}">{{num}}</a></li>
+                {% else %}
+                    <li class="page-item active"><a class="page-link" href="?page={{num}}">{{num}}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+      </nav>
+    {% endif %}
+{% endblock %}
