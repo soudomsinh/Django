@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>Welcome to the website</title>
+{% endblock title %}
+
+{% block content %}
+    <h2 class="text-center">Information of employees at Central Perk Cafe </h2>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="input-group my-3">
+            <input type="text" name="name" class="form-control" placeholder="Search for employee" required>
+            <button type="submit"  class="btn btn-primary">Search</button>
+        </div>
+    </form>
+    <div class="row">
+        {% for emp in all_employee %}
+            <div class="col-md-4 my-2">
+                <div class="card" style="width: 18rem;">
+                    <img src="{{emp.cover.url}}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">{{emp.fname}} {{emp.lname}}</h5>
+                      <p class="card-text">Address: {{emp.address}}</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item">Sex: {{emp.gender}}, Birthdate: {{emp.birthdate}}</li>
+                      <li class="list-group-item">Pronouns: {{emp.pronouns}}</li>
+                      <li class="list-group-item">Department: {{emp.department}} </li>
+                      <li class="list-group-item">Salary: {{emp.salary}} </li>
+                    </ul>
+                    <div class="card-body">
+                      <a href="{% url 'edit' emp.id %}" class="btn btn-warning">Edit</a>
+                      <a href="{% url 'delete' emp.id %}" class="btn btn-danger">Delete</a>
+                    </div>
+                  </div>
+            </div>
+        {% endfor %}
+    </div>
+    
+{% endblock content %}
