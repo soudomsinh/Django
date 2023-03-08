@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>This is form page</title>
+{% endblock %}
+
+
+{% block content %}
+    <h2 class="text-center">This is page for editing the information </h2>
+    <form method= "post" >
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" name="name" class="form-control" value="{{person.name}}">
+        </div>
+        <div class="form-group mb-3">
+            <label for="age">Age</label>
+            <input type="number" name="age" class="form-control" value= "{{person.age}}">
+        </div>
+        <input type="submit" value="update data" class="btn btn-success">
+    </form>
+{% endblock %}
+

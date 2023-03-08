@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>Homepage</title>
+{% endblock %}
+
+{% block content %}
+    <h2 class="text-center">Demo table</h2>
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-success" role="alert">
+            <strong>{{message}}</strong>
+        </div>
+            
+        {% endfor %}
+    {% endif %}
+    <table class="table table-striped ">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Age</th>
+            <th scope="col">Added Date</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+
+          </tr>
+        </thead>
+        <tbody >
+          {% for person in all_person %}
+          <tr>
+            <th scope="row">{{person.id}}</th>
+            <td>{{person.name}}</td>
+            <td>{{person.age}}</td>
+            <td>{{person.date}}</td>
+            <td><a href="edit/{{person.id}}" class="btn btn-warning">Edit</a></td>
+            <td>
+                <a href="delete/{{person.id}}" class="btn btn-danger"
+                onclick="return confirm('Do you want to delete {{person.name}}?')"
+                >Delete</a>
+            </td>
+          </tr>
+          {% endfor %}
+      </table>
+{% endblock %}
