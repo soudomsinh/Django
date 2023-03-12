@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block title  %}
+    <title> Account Statement</title>
+    <link rel="stylesheet" href="//cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css">
+{% endblock  %}
+
+{% block content %}
+    <h1 class="py-2 text-center">Account Statement</h1>
+    <table id="myStatement" class="cell-border">
+        <thead>
+            <th>Items</th>
+            <th>Added Date</th>
+            <th>Amount($)</th>
+            <th>Category</th>
+        </thead>
+        <tbody>
+            {% for statement in money_data %}
+                <tr>
+                    <td>{{statement.name}}</td>
+                    <td>{{statement.date}}</td>
+                    <td>{{statement.amount | intcomma}}</td>
+
+                    {% if statement.category == "income" %}
+                        <td>Income</td>
+                    {% else %}
+                        <td>Expense</td>
+                    {% endif %} 
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+{% block footer %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="//cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+    <script>
+        let table = new DataTable('#myStatement');
+    </script>
+{% endblock %}
+

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title  %}
+    <title> Money Tracker </title>
+{% endblock  %}
+
+{% block content %}
+
+    <canvas id="moneyReport"></canvas>
+{% endblock %}
+
+{% block footer %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('moneyReport');
+      
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: ["Income", "Expense"],
+            datasets: [{
+              label: 'Overall income/expense statement',
+              data: ["{{income.amount__sum}}", "{{expense.amount__sum}}"],
+              backgroundColor: ["Green", "Red"],
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      </script>
+{% endblock %}
